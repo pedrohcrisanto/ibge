@@ -23,9 +23,29 @@
     <%= f.text_field :phone %>
   </div>
 
-  <div class="field">
-    <%= f.label :status %><br />
-    <%= f.text_field :status %>
+ <div class="field">
+    <%= fields_for :address  do |ff| %>
+      <%= ff.label :zip %>
+      <%= ff.text_field :zip %>
+     
+      <%= ff.label :street %>
+      <%= ff.text_field :street %>
+     
+      <%= ff.label :complement %>
+      <%= ff.text_field :comlement %>
+     
+      <%= ff.label :neighborhood %>
+      <%= ff.text_field :neighborhood %>
+     
+      <%= ff.label :city %>
+      <%= ff.text_field :city %>
+     
+      <%= ff.label :uf %>
+      <%= ff.text_field :uf %>
+     
+      <%= ff.label :ibge_code %>
+      <%= ff.text_field :ibge_code%>
+    <% end %>
   </div>
 
   <div class="field">
