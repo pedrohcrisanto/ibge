@@ -1,6 +1,8 @@
+require 'correios-cep'
+
 class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!
   # GET /addresses
   # GET /addresses.json
   def index
@@ -11,7 +13,19 @@ class AddressesController < ApplicationController
   # GET /addresses/1.json
   def show
   end
+  
+  def fill
+    cep = params[:cep_service]
+    return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
+    
+    finder = Correios::CEP::AddressFinder.new
 
+    address = finder.get(cep)
+    
+    @address = Address.new(:zip => address[:zipcode] , street: address[:address], complement: address[:complement], neighborhood: address[:neighborhood], city: address[:city], uf: address[:state])
+    
+    render :new
+  end
   # GET /addresses/new
   def new
     @address = Address.new
@@ -24,7 +38,7 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
-    @address = Address.new(address_params)
+    @address = Address.new(address_params.merge(user: current_user))
 
     respond_to do |format|
       if @address.save
