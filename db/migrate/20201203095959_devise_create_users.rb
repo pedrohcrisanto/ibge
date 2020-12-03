@@ -11,6 +11,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.date :birthdate
       t.string :phone
       t.boolean :status
+
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at

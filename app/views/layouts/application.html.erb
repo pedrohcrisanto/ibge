@@ -8,7 +8,18 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+  <% if user_signed_in? %>
+                   
+      Logado como: 
+  <strong><%= current_user.email %></strong> 
 
+  <%= link_to 'Editar Perfil', edit_user_registration_path, :class => 'btn' %> 
+  <%= link_to "Sair", destroy_user_session_path, method: :delete, :class => 'btn'  %>
+                    <% else %>
+                     
+               
+                   
+                    <% end %>
   <body>
     <%= yield %>
   </body>
