@@ -6,7 +6,20 @@ class AddressesController < ApplicationController
   # GET /addresses
   # GET /addresses.json
   def index
-    @addresses = Address.all
+    addresses = Address.all
+    cities = []
+    rank_cities = []
+    
+    addresses.each do |address|
+      cities << address.city
+    end
+    
+    cities.uniq.each do |city|
+      count_city = Address.where(city: city).count 
+      rank_cities << {city: city, count: count_city} 
+    end
+    
+    @cities_rank = rank_cities
   end
 
   # GET /addresses/1
@@ -15,20 +28,43 @@ class AddressesController < ApplicationController
   end
   
   def fill
+    address_check =  Address.find_by(user: current_user)
     cep = params[:cep_service]
-    return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
     
-    finder = Correios::CEP::AddressFinder.new
-
-    address = finder.get(cep)
+    if address_check.present?
+      return redirect_to edit_address_path(address), alert: "Voce não preencheu o cep!" if cep.blank?
     
-    @address = Address.new(:zip => address[:zipcode] , street: address[:address], complement: address[:complement], neighborhood: address[:neighborhood], city: address[:city], uf: address[:state])
+      finder = Correios::CEP::AddressFinder.new
+      address = finder.get(cep)
+      
+      address_consult.update(:zip => address[:zipcode] , 
+                              street: address[:address], 
+                              complement: address[:complement], 
+                              neighborhood: address[:neighborhood], 
+                              city: address[:city], 
+                              uf: address[:state])
+  
+      redirect_to addresses_path, notice: "Atualizado com sucesso!"
+    else 
+      return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
     
-    render :new
+      finder = Correios::CEP::AddressFinder.new
+      address = finder.get(cep)
+    
+      @address = Address.new(:zip => address[:zipcode] , street: address[:address], complement: address[:complement], neighborhood: address[:neighborhood], city: address[:city], uf: address[:state])
+  
+      render :new
+    end
   end
   # GET /addresses/new
   def new
-    @address = Address.new
+    address =  Address.find_by(user: current_user)
+    if address.present?
+      redirect_to edit_address_path(address)
+    else 
+      @address = Address.new
+    end
+    
   end
 
   # GET /addresses/1/edit
@@ -38,17 +74,20 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
+ 
     @address = Address.new(address_params.merge(user: current_user))
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address, notice: 'Address was successfully created.' }
+        format.html { redirect_to addresses_path, notice: 'Address was successfully created.' }
         format.json { render :show, status: :created, location: @address }
       else
         format.html { render :new }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end
+
+
   end
 
   # PATCH/PUT /addresses/1
@@ -56,7 +95,7 @@ class AddressesController < ApplicationController
   def update
     respond_to do |format|
       if @address.update(address_params)
-        format.html { redirect_to @address, notice: 'Address was successfully updated.' }
+        format.html { redirect_to addresses_path, notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @address }
       else
         format.html { render :edit }
