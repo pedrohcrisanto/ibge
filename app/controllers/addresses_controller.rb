@@ -16,7 +16,7 @@ class AddressesController < ApplicationController
     
     cities.uniq.each do |city|
       count_city = Address.where(city: city).count 
-      rank_cities << {city: city, count: count_city} 
+      rank_cities << { city: city, count: count_city } 
     end
     
     @cities_rank = rank_cities
@@ -32,19 +32,9 @@ class AddressesController < ApplicationController
     cep = params[:cep_service]
     
     if address_check.present?
-      return redirect_to edit_address_path(address), alert: "Voce não preencheu o cep!" if cep.blank?
+      return redirect_to edit_address_path(address_check), alert: "Voce não preencheu o cep!" if cep.blank?
     
-      finder = Correios::CEP::AddressFinder.new
-      address = finder.get(cep)
-      
-      address_consult.update(:zip => address[:zipcode] , 
-                              street: address[:address], 
-                              complement: address[:complement], 
-                              neighborhood: address[:neighborhood], 
-                              city: address[:city], 
-                              uf: address[:state])
-  
-      redirect_to addresses_path, notice: "Atualizado com sucesso!"
+      redirect_to edit_address_path(address_check, cep_service: params[:cep_service]), notice: "Atualizado com sucesso!"
     else 
       return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
     
@@ -69,6 +59,17 @@ class AddressesController < ApplicationController
 
   # GET /addresses/1/edit
   def edit
+    if params[:cep_service].present?
+      finder = Correios::CEP::AddressFinder.new
+      address = finder.get(params[:cep_service])
+      
+      @address.zip = address[:zipcode]
+      @address.street = address[:address]
+      @address.complement = address[:complement]
+      @address.neighborhood = address[:neighborhood]
+      @address.city = address[:city]
+      @address.uf = address[:state]
+    end
   end
 
   # POST /addresses
