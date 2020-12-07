@@ -11,12 +11,12 @@ class AddressesController < ApplicationController
     rank_cities = []
     
     addresses.each do |address|
-      cities << address.city
+      cities << address.city.capitalize()
     end
     
     cities.uniq.each do |city|
       count_city = Address.where(city: city).count 
-      rank_cities << { city: city, count: count_city } 
+      rank_cities << { city: city, count: count_city }
     end
     
     @cities_rank = rank_cities
