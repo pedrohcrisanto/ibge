@@ -37,11 +37,10 @@ class AddressesController < ApplicationController
       redirect_to edit_address_path(address_check, cep_service: params[:cep_service]), notice: "Atualizado com sucesso!"
     else 
       return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
+      
+      data = CepService.new(cep).find
     
-      finder = Correios::CEP::AddressFinder.new
-      address = finder.get(cep)
-    
-      @address = Address.new(:zip => address[:zipcode] , street: address[:address], complement: address[:complement], neighborhood: address[:neighborhood], city: address[:city], uf: address[:state])
+      @address = Address.new(:zip => data.zip , street: data.street, complement: data.complement, neighborhood: data.neighborhood, city: data.city, uf: data.uf, ibge_code: data.ibge_code)
   
       render :new
     end
