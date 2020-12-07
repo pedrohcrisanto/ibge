@@ -34,18 +34,23 @@
     </nav>
   </header>
 
+  <% flash.each do |type, msg| %>
+    <div class="alert text-center alert-info">
+      <%= msg %>
+    </div>
+  <% end %>
+
   <body>
-    <%= yield %>
+    <div style="margin: 2%;">
+      <%= yield %>
+    </div>
   </body>
 
-
-<footer class="page-footer font-small footer">
+  <footer class="page-footer font-small footer">
 
   <div class="footer-copyright text-center py-3">© IBGE
     <br><p class="link-footer">Pedro Crisanto</a>
   </div>
-
-
-</footer>
+  </footer>
 
 </html>

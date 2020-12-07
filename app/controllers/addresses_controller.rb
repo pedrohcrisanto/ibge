@@ -62,7 +62,7 @@ class AddressesController < ApplicationController
       @address.neighborhood = data.neighborhood
       @address.city = data.city
       @address.uf = data.uf
-      @address.ibge_code = data.ibg
+      @address.ibge_code = data.ibge_code
     end
   end
 
