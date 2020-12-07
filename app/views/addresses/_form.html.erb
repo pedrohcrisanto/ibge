@@ -1,0 +1,53 @@
+<div class="container text-center" style="margin-bottom: 2%;margin-top: 2%;">
+  <%= form_with(url: "/data/fill", local: true, method: "get") do %>
+    <%= label_tag(:cep_service, "Digite o seu CEP:") %>
+    <%= text_field_tag(:cep_service) %>
+    <%= submit_tag "Preencher dados", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<%= form_with(model: address, local: true) do |form| %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :zip %>
+      <%= form.text_field :zip , class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= form.label :ibge_code %>
+      <%= form.text_field :ibge_code , class: "form-control" %>
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    <%= form.label :street %>
+    <%= form.text_field :street , class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :complement %>
+    <%= form.text_field :complement , class: "form-control" %>
+  </div>
+  
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :neighborhood %>
+      <%= form.text_field :neighborhood , class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-4">
+      <%= form.label :city %>
+      <%= form.text_field :city , class: "form-control" %>
+    </div>
+
+    <div class="form-group col-md-2">
+      <%= form.label :uf %>
+      <%= form.text_field :uf , class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="actions" style="margin-top: 1%;">
+    <%= form.submit "Cadastrar", class: "btn btn-success" %>
+  </div>
+<% end %>
