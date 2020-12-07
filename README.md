@@ -1,24 +1,36 @@
-# README
+## Configuração
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Clone o projeto
 
-Things you may want to cover:
+```sh
+$ git clone https://github.com/pedrohcrisanto/igbe.git
+```
 
-* Ruby version
+Instale as dependências
+```sh
+$ cd /ibge/
+$ bundle install
+```
 
-* System dependencies
+Crie o banco e migre as tabelas
+```sh
+$ rake db:create db:migrate 
+```
 
-* Configuration
+Rode a aplicação
+```sh
+$ rails s
+```
 
-* Database creation
+Abra o seu navegador(de preferência Chrome ou Firefox) e navegue para `localhost:3000`
 
-* Database initialization
+Para realizar Testes
+```sh
+$ bundle exec rspec
+```
+## Deploy no Heroku
 
-* How to run the test suite
+https://ibge-test.herokuapp.com/
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
 
-* ...
