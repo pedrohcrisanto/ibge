@@ -32,5 +32,9 @@ $ bundle exec rspec
 
 https://ibge-test.herokuapp.com/
 
+## Observações
 
+Favor analisar o codigo da branch development
+
+Dependências => Rails 6, Postgresql e Ruby 2.7.2
 
