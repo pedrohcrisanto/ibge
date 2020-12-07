@@ -22,6 +22,8 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
+gem 'mini_magick'
+gem "httparty"
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 gem 'correios-cep'
@@ -40,9 +42,7 @@ group :development do
   gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
-    gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'main'
-  end
+  gem 'rspec-rails', '~> 4.0'
   gem 'factory_bot_rails'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
