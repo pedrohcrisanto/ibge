@@ -1,23 +1,24 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <h1 class="text-center">Habitantes por municipios</h1>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>UF</th>
+          <th>Habitantes cadastrados</th>
+        </tr>
+      </thead>
 
-<h1>Addresses</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>City</th>
-      <th>UF</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @cities_rank.each do |object| %>
-      <tr>
-        <td><%= object[:city] %></td>
-        <td><%= object[:uf]%>
-        <td><%= object[:count] %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @cities_rank.each do |object| %>
+          <tr>
+            <td><%= object[:city] %></td>
+            <td><%= object[:uf]%>
+            <td><%= object[:count] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

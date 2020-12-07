@@ -1,59 +1,52 @@
-
+<div class="container text-center">
 <%= form_with(url: "/data/fill", local: true, method: "get") do %>
-  <%= label_tag(:cep_service, "Search for:") %>
+  <%= label_tag(:cep_service, "Digite o seu CEP:") %>
   <%= text_field_tag(:cep_service) %>
-  <%= submit_tag("Search") %>
+  <%= submit_tag "Preencher dados", class: "btn btn-primary" %>
 <% end %>
+</div>
 
 <%= form_with(model: address, local: true) do |form| %>
-  <% if address.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h2>
-
-      <ul>
-        <% address.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :zip %>
+    <%= form.text_field :zip , class: "form-control" %>
     </div>
-  <% end %>
+    <div class="form-group col-md-6">
+        <%= form.label :ibge_code %>
+    <%= form.text_field :ibge_code , class: "form-control" %>
 
-  <div class="field">
-    <%= form.label :zip %>
-    <%= form.text_field :zip %>
+    </div>
   </div>
+  <div class="form-group">
+      <%= form.label :street %>
+    <%= form.text_field :street , class: "form-control" %>
 
-  <div class="field">
-    <%= form.label :street %>
-    <%= form.text_field :street %>
   </div>
+  <div class="form-group">
+      <%= form.label :complement %>
+    <%= form.text_field :complement , class: "form-control" %>
 
-  <div class="field">
-    <%= form.label :complement %>
-    <%= form.text_field :complement %>
   </div>
-
-  <div class="field">
+  
+  <div class="form-row">
+    <div class="form-group col-md-6">
     <%= form.label :neighborhood %>
-    <%= form.text_field :neighborhood %>
-  </div>
+    <%= form.text_field :neighborhood , class: "form-control" %>
+    </div>
 
-  <div class="field">
+    <div class="form-group col-md-4">
     <%= form.label :city %>
-    <%= form.text_field :city %>
-  </div>
+    <%= form.text_field :city , class: "form-control" %>
+    </div>
 
-  <div class="field">
+    <div class="form-group col-md-2">
     <%= form.label :uf %>
-    <%= form.text_field :uf %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ibge_code %>
-    <%= form.text_field :ibge_code %>
+    <%= form.text_field :uf , class: "form-control" %>
+    </div>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Cadastrar", class: "btn btn-success" %>
   </div>
 <% end %>
