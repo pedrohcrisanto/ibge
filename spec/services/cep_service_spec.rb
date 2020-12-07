@@ -14,7 +14,7 @@ describe CepService do
           expect(subject.street).to eq "Rua Rodrigo Santiago de Brito Pereira"
           expect(subject.complement).to eq ""
           expect(subject.neighborhood).to eq "Areia Dourada"
-          expect(subject.city).to eq nil
+          expect(subject.city).to eq "Cabedelo"
           expect(subject.uf).to eq "PB"
           expect(subject.ibge_code).to eq "2503209"
       end

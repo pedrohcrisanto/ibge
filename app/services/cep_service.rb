@@ -41,6 +41,7 @@ class CepService
       data.neighborhood = response.bairro
       data.uf = response.uf
       data.ibge_code = response.ibge
+      data.city = response.localidade
       data
     end
   

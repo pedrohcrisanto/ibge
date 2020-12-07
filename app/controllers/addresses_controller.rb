@@ -7,16 +7,11 @@ class AddressesController < ApplicationController
   # GET /addresses.json
   def index
     addresses = Address.all
-    cities = []
     rank_cities = []
-    
-    addresses.each do |address|
-      cities << address.city.capitalize()
-    end
-    
-    cities.uniq.each do |city|
-      count_city = Address.where(city: city).count 
-      rank_cities << { city: city, count: count_city }
+
+    addresses.uniq.each do |address|
+      count_city = Address.where(city: address.city).count 
+      rank_cities << { city: address, count: count_city }
     end
     
     @cities_rank = rank_cities
@@ -53,21 +48,20 @@ class AddressesController < ApplicationController
     else 
       @address = Address.new
     end
-    
   end
 
   # GET /addresses/1/edit
   def edit
     if params[:cep_service].present?
-      finder = Correios::CEP::AddressFinder.new
-      address = finder.get(params[:cep_service])
-      
-      @address.zip = address[:zipcode]
-      @address.street = address[:address]
-      @address.complement = address[:complement]
-      @address.neighborhood = address[:neighborhood]
-      @address.city = address[:city]
-      @address.uf = address[:state]
+      data = CepService.new(params[:cep_service]).find
+           
+      @address.zip = data.zip
+      @address.street = data.street
+      @address.complement = data.complement
+      @address.neighborhood = data.neighborhood
+      @address.city = data.city
+      @address.uf = data.uf
+      @address.ibge_code = data.ibg
     end
   end
 
