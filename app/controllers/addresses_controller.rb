@@ -1,5 +1,3 @@
-require 'correios-cep'
-
 class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
@@ -36,7 +34,13 @@ class AddressesController < ApplicationController
       
       data = CepService.new(cep).find
     
-      @address = Address.new(:zip => data.zip , street: data.street, complement: data.complement, neighborhood: data.neighborhood, city: data.city, uf: data.uf, ibge_code: data.ibge_code)
+      @address = Address.new(zip: data.zip, 
+                             street: data.street, 
+                             complement: data.complement, 
+                             neighborhood: data.neighborhood, 
+                             city: data.city, 
+                             uf: data.uf, 
+                             ibge_code: data.ibge_code)
   
       render :new
     end
