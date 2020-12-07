@@ -9,7 +9,7 @@ describe CepService do
 
       let(:cep) { "58101245" }
     
-      it "returns company data" do
+      it "returns cep data" do
           expect(subject.zip).to eq "58101-245"
           expect(subject.street).to eq "Rua Rodrigo Santiago de Brito Pereira"
           expect(subject.complement).to eq ""
