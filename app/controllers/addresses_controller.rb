@@ -30,7 +30,7 @@ class AddressesController < ApplicationController
     if address_check.present?
       return redirect_to edit_address_path(address_check), alert: "Voce não preencheu o cep!" if cep.blank?
     
-      redirect_to edit_address_path(address_check, cep_service: params[:cep_service]), notice: "Atualizado com sucesso!"
+      redirect_to edit_address_path(address_check, cep_service: params[:cep_service])
     else 
       return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
       
