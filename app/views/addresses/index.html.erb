@@ -14,8 +14,8 @@
   <tbody>
     <% @cities_rank.each do |object| %>
       <tr>
-        <td><%= object[:city][:city] %></td>
-        <td><%= object[:city][:uf]%>
+        <td><%= object[:city] %></td>
+        <td><%= object[:uf]%>
         <td><%= object[:count] %></td>
       </tr>
     <% end %>

@@ -11,10 +11,11 @@ class AddressesController < ApplicationController
 
     addresses.uniq.each do |address|
       count_city = Address.where(city: address.city).count 
-      rank_cities << { city: address, count: count_city }
+      rank_cities << { city: address.city, uf: address.uf, count: count_city }
     end
     
-    @cities_rank = rank_cities
+    @cities_rank = rank_cities.uniq
+    
   end
 
   # GET /addresses/1
