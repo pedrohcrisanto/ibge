@@ -35,7 +35,8 @@ class AddressesController < ApplicationController
       service = CepService.new(cep)
       
       if service.find
-        @address = Address.new(**service.data.to_h)
+        @address = Address.new(**service.data)
+
         flash[:notice] = service.message
       else
         flash[:alert] = service.message
