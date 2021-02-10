@@ -11,7 +11,7 @@ describe CepService do
 
       it "returns cep data" do
         expect(subject).to be_truthy
-        expect(instance.message).to "Seus dados foram preenchidos corretamente."
+        expect(instance.message).to eq "Seus dados foram preenchidos corretamente."
         expect(instance.data.zip).to eq "58101-245"
         expect(instance.data.street).to eq "Rua Rodrigo Santiago de Brito Pereira"
         expect(instance.data.complement).to eq ""
