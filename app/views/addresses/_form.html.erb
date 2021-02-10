@@ -1,5 +1,5 @@
 <div class="container text-center" style="margin-bottom: 2%;margin-top: 2%;">
-  <%= form_with(url: "/data/fill", local: true, method: "get") do %>
+  <%= form_with(url: "/data/fill", local: true, method: "post") do %>
     <%= label_tag(:cep_service, "Digite o seu CEP:") %>
     <%= text_field_tag(:cep_service) %>
     <%= submit_tag "Preencher dados", class: "btn btn-primary" %>
