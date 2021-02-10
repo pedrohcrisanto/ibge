@@ -3,17 +3,17 @@ class AddressesController < ApplicationController
   before_action :authenticate_user!
   # GET /addresses
   # GET /addresses.json
+
   def index
     addresses = Address.all
     rank_cities = []
 
     addresses.uniq.each do |address|
       count_city = Address.where(city: address.city).count 
-      rank_cities << { city: address.city, uf: address.uf, count: count_city }
+      rank_cities <<  { city: address.city, uf: address.uf, count: count_city }
     end
     
     @cities_rank = rank_cities.uniq
-    
   end
 
   # GET /addresses/1
@@ -26,25 +26,27 @@ class AddressesController < ApplicationController
     cep = params[:cep_service]
     
     if address_check.present?
-      return redirect_to edit_address_path(address_check), alert: "Voce não preencheu o cep!" if cep.blank?
-    
-      redirect_to edit_address_path(address_check, cep_service: params[:cep_service])
+      if cep.blank? 
+        redirect_to edit_address_path(address_check), alert: "Voce não preencheu o cep!"
+      else
+        redirect_to edit_address_path(address_check, cep_service: params[:cep_service])
+      end
     else 
-      return redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
+      redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
       
-      data = CepService.new(cep).find
+      service = CepService.new(cep)
+      
+      if service.find
+        @address = Address.new(**service.data.to_h)
+        flash[:notice] = service.message
+      else
+        flash[:alert] = service.message
+      end
     
-      @address = Address.new(zip: data.zip, 
-                             street: data.street, 
-                             complement: data.complement, 
-                             neighborhood: data.neighborhood, 
-                             city: data.city, 
-                             uf: data.uf, 
-                             ibge_code: data.ibge_code)
-  
       render :new
     end
   end
+
   # GET /addresses/new
   def new
     address =  Address.find_by(user: current_user)
@@ -58,15 +60,21 @@ class AddressesController < ApplicationController
   # GET /addresses/1/edit
   def edit
     if params[:cep_service].present?
-      data = CepService.new(params[:cep_service]).find
-           
-      @address.zip = data.zip
-      @address.street = data.street
-      @address.complement = data.complement
-      @address.neighborhood = data.neighborhood
-      @address.city = data.city
-      @address.uf = data.uf
-      @address.ibge_code = data.ibge_code
+      service = CepService.new(params[:cep_service])
+
+        if service.find
+          @address.zip = service.data.zip
+          @address.street = service.data.street
+          @address.complement = service.data.complement
+          @address.neighborhood = service.data.neighborhood
+          @address.city = service.data.city
+          @address.uf = service.data.uf
+          @address.ibge_code = service.data.ibge_code
+          
+          flash[:notice] = service.message
+        else
+          flash[:alert] = service.message        
+        end
     end
   end
 
@@ -85,8 +93,6 @@ class AddressesController < ApplicationController
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end
-
-
   end
 
   # PATCH/PUT /addresses/1
