@@ -31,9 +31,7 @@ class AddressesController < ApplicationController
       else
         redirect_to edit_address_path(address_check, cep_service: params[:cep_service])
       end
-    else 
-      redirect_to new_address_path, alert: "Voce não preencheu o cep!" if cep.blank?
-      
+    else
       service = CepService.new(cep)
       
       if service.find
@@ -42,8 +40,11 @@ class AddressesController < ApplicationController
       else
         flash[:alert] = service.message
       end
-    
-      render :new
+      if cep.blank?
+        redirect_to new_address_path, alert: "Voce não preencheu o cep!"
+      else
+        render :new
+      end
     end
   end
 
