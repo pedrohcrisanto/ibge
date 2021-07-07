@@ -24,10 +24,10 @@
         </ul>
         <div class="my-2 my-lg-0">
           <% if user_signed_in? %>
-            Logado como: 
+            <span>Logado como:</span> 
             <strong><%= current_user.email %></strong> 
-            <%= link_to 'Editar Perfil', edit_user_registration_path, :class => 'btn' %> 
-            <%= link_to "Sair", destroy_user_session_path, method: :delete, :class => 'btn'  %>     
+            <%= link_to 'Editar Perfil', edit_user_registration_path, :class => 'btn btn-primary' %> 
+            <%= link_to "Sair", destroy_user_session_path, method: :delete, :class => 'btn btn-danger'  %>     
           <% end %>
         </div>
       </div>

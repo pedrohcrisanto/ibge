@@ -15,10 +15,17 @@ class CepService
   
     def find
       response = call
-      if success?(response)
+    
+      if response.success? && response["erro"].nil?
         process_response(response)
+        
+        @message = "Seus dados foram preenchidos corretamente."
+
+        true
       else
         process_error_message(response)
+
+        false
       end
     end
   
@@ -42,15 +49,10 @@ class CepService
       data.uf = response.uf
       data.ibge_code = response.ibge
       data.city = response.localidade
-      data
-    end
-  
-    def success?(response)
-      response.code == 200
     end
   
     def process_error_message(response)
-      @message = "Algo deu errado!"
+      @message = "CEP Inválido!" if response.code == 400 || response["erro"].present?
     end
   
     def response_as_object(response)
